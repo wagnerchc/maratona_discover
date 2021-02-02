@@ -20,21 +20,21 @@
                     <spam>Entradas</spam>
                     <img src="./assets/income.svg" alt="Imagem de entradas">
                 </h3>        
-                <p>R$ 5.000,00</p>
+                <p id="incomeDisplay"></p>
             </div>
             <div class="card">
                 <h3>
                        <spam>Saídas</spam>
                     <img src="./assets/expense.svg" alt="Imagem de saídas">
                 </h3>   
-                <p>R$ 2.000,00</p>
+                <p id="expenseDisplay"></p>
             </div>
             <div class="card total">
                 <h3>
                     <spam>Total</spam>
                     <img src="./assets/total.svg" alt="Imagem do total">
                 </h3>
-                <p>R$ 3.000,00</p>
+                <p id="totalDisplay"></p>
             </div>
         </section>
         <section id="transaction">
@@ -57,30 +57,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="description">Luz</td>
-                        <td class="expense">- R$ 500,00</td>
-                        <td class="date"> 23/01/2021</td>
-                        <td>
-                            <img src="./assets/minus.svg" alt="Remover transação">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="description">Criação de wesite</td>
-                        <td class="income">R$ 5.000,00</td>
-                        <td class="date"> 23/01/2021</td>
-                        <td>
-                            <img src="./assets/minus.svg" alt="Remover transação">
-                        </td>
-                    </tr>
-                    <tr> 
-                        <td class="description">Internet</td>
-                        <td class="expense">- R$ 200,00</td>
-                        <td class="date"> 23/01/2021</td>
-                        <td>
-                            <img src="./assets/minus.svg" alt="Remover transação">
-                        </td>
-                    </tr>
                 </tbody>
             </table>       
         </section>
@@ -91,7 +67,7 @@
             <div class="modal-contente">
                 <div id="form">
                     <h2>Nova Transação</h2>
-                    <form action="">
+                    <form action="" onsubmit="Form.submit(event)">
                         <div class="input-group">
                             <label
                                 class="sr-only" for="description">Descrição</label>

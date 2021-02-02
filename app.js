@@ -13,55 +13,58 @@ const Modal = {
     }
 }
 
-const transactions = [
-    {
-        id: 1,
-        description: 'Luz',
-        amount: -50000,
-        date: '29/01/2021',
-    },
-    {
-        id: 2,
-        description: 'Criação website',
-        amount: 500000,
-        date: '29/01/2021',
-    },
-    {
-        id: 3,
-        description: 'Internet',
-        amount: -20000,
-        date: '29/01/2021',
-    },
-]
-
-// somar as entradas, somar as saídas e remover das
-// entradas as saídas, para ter o total
 const transaction = {
-    all:transactions,
+    all: [{
+            description: 'Luz',
+            amount: -50000,
+            date: '29/01/2021',
+        },
+        {
+            description: 'Criação website',
+            amount: 500000,
+            date: '29/01/2021',
+        },
+        {
+            description: 'Internet',
+            amount: -20000,
+            date: '29/01/2021',
+        }
+    ],
+    add(transactions){
+        transaction.all.push(transactions)
+        App.reload()
+    },
+
+    remove(index) {
+        transaction.all.splice(index, 1)
+        App.reload()
+    },
+
     incomes() {
         let income = 0
-        transactions.all.forEach((transaction) => {
+        transaction.all.forEach(transaction => {
             if(transaction.amount > 0) {
                 income += transaction.amount;
             }
         })
-        return income
+            return income
     },
+
     expenses() {
         let expense = 0
-        transactions.all.forEach((transaction) => {
+        transaction.all.forEach(transaction => {
             if(transaction.amount < 0) {
                 expense += transaction.amount;
             }
         })
         return expense
     },
+
     total() {
         return transaction.incomes() + transaction.expenses()
     }
 }
 
-// pegar as transações do objeto do js e colocar no html
 const DOM = {
     
     transactionsContainer: document.querySelector('#data-table tbody'),
@@ -95,6 +98,9 @@ const DOM = {
         document
             .getElementById('totalDisplay')
             .innerHTML = Utils.formatCurrency(transaction.total())
+    },
+    clearTransaction () {
+        DOM.transactionsContainer.innerHTML = ""
     }
 }
 
@@ -111,8 +117,65 @@ const Utils = {
     }
 }
 
-transactions.forEach(function(transaction){
-    DOM.addTransaction(transaction)
-})
+const Form = {
+    description: document.querySelector('input#description'),
+    date: document.querySelector('input#date'),
+    amount: document.querySelector('input#amount'),    
+    
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value,
+        }
+    },
 
-DOM.updateBalance()
+    validateFields(){
+        const { description, amount, date } = Form.getValues()
+        if(
+            description.trim() === "" ||
+            amount.trim() === "" || 
+            date.trim() === "" ) {
+                throw new Error("Preencha todos os campos")
+            }
+    },
+    formatData() {
+
+    },
+    submit(event) {
+        event.preventDefault()
+
+        try {
+            Form.validateFields()
+            Form.formatData()
+            // salvar dados
+            // apagar dados
+            // fechar modal
+            // atualizar app
+        } catch (error) {
+            alert(error.message)
+        }
+
+    }
+}
+
+const App = {
+    init() {
+
+        transaction.all.forEach(transaction => {
+            DOM.addTransaction(transaction)
+        })
+        
+        DOM.updateBalance()
+
+    },
+    reload() {
+
+        DOM.clearTransaction()
+
+        App.init()
+
+    }
+}
+
+App.init()
